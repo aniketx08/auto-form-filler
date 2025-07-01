@@ -87,12 +87,15 @@ const Dashboard = () => {
 
   const [userData, setUserData] = useState<UserData>(initialUserData);
   const { user } = useUser();
+  const baseURL = import.meta.env.VITE_BACKEND_URL;
+  console.log("🌐 baseURL", baseURL); // ← This must print the correct URL
+
 
   useEffect(() => {
     const fetchProfile = async () => {
       const token = await getToken();
       try {
-        const res = await axios.get("http://127.0.0.1:8000/profile", {
+        const res = await axios.get(`${baseURL}/profile`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -121,7 +124,7 @@ const Dashboard = () => {
     const token = await getToken();
     setIsEditing(false);
     try {
-      await axios.post("http://127.0.0.1:8000/profile", userData, {
+      await axios.post(`${baseURL}/profile`, userData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -151,7 +154,7 @@ const Dashboard = () => {
     try {
       setIsProcessing(true);
 
-      await axios.post("http://127.0.0.1:8000/submit/", formData, {
+      await axios.post(`${baseURL}/submit/`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",

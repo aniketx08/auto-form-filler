@@ -20,10 +20,7 @@ CLERK_JWT_AUDIENCE = os.getenv("CLERK_FRONTEND_API")
 
 app = FastAPI()
 
-origins = [
-    "http://localhost:5173",  # ✅ your Vite dev server
-    "http://127.0.0.1:5173",  # optional
-]
+origins = os.getenv("CORS_ORIGINS", "*").split(",")
 
 app.add_middleware(
     CORSMiddleware,
