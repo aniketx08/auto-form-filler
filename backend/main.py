@@ -12,6 +12,7 @@ from dotenv import load_dotenv
 from utils.auth import get_current_user
 # backend/main.py
 from routes import user_routes
+import os
 
 load_dotenv()
 
