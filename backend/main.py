@@ -34,7 +34,7 @@ app.add_middleware(
 
 app.include_router(user_routes.router)
 
-@app.post("/submit/")
+@app.post("/submit")
 async def submit_form(
     request: Request,
     form_url: str = Form(...),
