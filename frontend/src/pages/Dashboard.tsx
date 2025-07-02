@@ -154,7 +154,7 @@ const Dashboard = () => {
     try {
       setIsProcessing(true);
 
-      await axios.post(`${baseURL}/submit/`, formData, {
+      await axios.post(`${baseURL}/submit`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",

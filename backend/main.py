@@ -34,25 +34,31 @@ app.add_middleware(
 
 app.include_router(user_routes.router)
 
-@app.post("/submit/")
+@app.post("/submit")
 async def submit_form(
     request: Request,
     form_url: str = Form(...),
     json_file: UploadFile = File(...),
     user: dict = Depends(get_current_user)
 ):
-    print("User ID:", user["sub"])
-    form = await request.form()
-    print("📦 Received form:", form)
+    try:
+        print("User ID:", user["sub"])
+        form = await request.form()
+        print("📦 Received form:", form)
 
-    job_id = str(uuid.uuid4())
-    json_path = f"uploads/{job_id}_data.json"
+        # Ensure uploads dir exists
+        os.makedirs("uploads", exist_ok=True)
 
-    with open(json_path, "wb") as jf:
-        shutil.copyfileobj(json_file.file, jf)
+        job_id = str(uuid.uuid4())
+        json_path = f"uploads/{job_id}_data.json"
 
-    # ✅ Launch the Playwright autofill now
-    print("🚀 Launching form fill task...")
-    await fill_form_main(form_url, json_path, resume_path=None)
+        with open(json_path, "wb") as jf:
+            shutil.copyfileobj(json_file.file, jf)
 
-    return JSONResponse({"status": "started", "job_id": job_id})
+        print("🚀 Launching form fill task...")
+        await fill_form_main(form_url, json_path, resume_path=None)
+
+        return JSONResponse({"status": "started", "job_id": job_id})
+    except Exception as e:
+        print("🔥 Error in /submit/:", e)
+        return JSONResponse({"error": str(e)}, status_code=500)
