@@ -145,8 +145,5 @@ async def fill_form_main(form_url, json_path, resume_path):
             except Exception as e:
                 print(f"❌ Block error: {e}")
 
-        print("\n⏸️ Please manually upload the required files now.")
-        input("Press Enter to continue after you’ve uploaded the files...")
-
         print("\n✅ All fields attempted. Please review before submitting.")
         await browser.close()
