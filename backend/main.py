@@ -28,7 +28,7 @@ app.add_middleware(
     allow_origins=[origin.strip() for origin in origins],
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"],
+    allow_headers=["*"],    
 )
 
 
